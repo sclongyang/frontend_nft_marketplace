@@ -5,6 +5,8 @@ import networkMapping from "../constants/networkMapping.json"
 import nftMarketplaceAbi from "../constants/NFTMarketplace.json"
 import baseNFTAbi from "../constants/BaseNFT.json"
 import {ethers} from "ethers"
+import styles from "../styles/Home.module.css"
+
 
 export default function Sell(){
     const {account, chainId, isWeb3Enabled} = useMoralis()    
@@ -106,10 +108,14 @@ export default function Sell(){
     }
 
     return (
-        <div>
+        <div className="flex flex-col items-center">
             <Form 
                 id="Sell Form"
                 title="Sell your NFT"
+                buttonConfig={{
+                    theme:"colored",
+                    color:"blue"
+                }}               
                 onSubmit={approveAndListNFT}
                 data={[
                     {
@@ -133,7 +139,7 @@ export default function Sell(){
                     },
                 ]}            
             />
-            <div>Withdraw {proceeds} ETH</div>
+            <div className="py-5 font-bold text-2xl">Withdraw {ethers.utils.formatEther(proceeds?proceeds:0)} ETH</div>
             {
                 proceeds === "0"?
                 (
@@ -142,6 +148,8 @@ export default function Sell(){
                     <Button 
                         text="Withdraw"
                         type="button"
+                        color="blue"
+                        theme="colored"
                         onClick={
                             ()=>withdrawProceeds()
                         }

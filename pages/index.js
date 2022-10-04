@@ -13,13 +13,13 @@ export default function Home() {
   const marketplaceAddress = networkMapping[chainString].NFTMarketplace[0]
 
   return (
-   <div>
+   <div className="flex flex-wrap">    
   {isWeb3Enabled ? (
                     loading || !listedNfts ? (
                         <div>Loading...</div>
                     ) : (
                         listedNfts.activeItems.map((nft) => {
-                            console.log(nft)
+                            // console.log(`nft from subgraph: ${nft}`)
                             const { price, nftAddress, tokenId, seller } = nft
                             return (
                                 <NFTBox
@@ -28,7 +28,7 @@ export default function Home() {
                                     tokenId={tokenId}
                                     marketplaceAddress={marketplaceAddress}
                                     seller={seller}
-                                    key={`${nftAddress}${tokenId}`}
+                                    key={`${tokenId}${nftAddress}`}
                                 />
                             )
                         })

@@ -19,7 +19,7 @@ export default function NFTBox({price ,tokenId, seller,  nftAddress, marketplace
 
     const isNFTOwner = account.toLowerCase() === seller.toLowerCase()? true: false
 
-    const updateState = async()=>{
+    const updateState = async()=>{        
         const uri = await getTokenURI() //  ipfs://bafybeig37ioir76s7mg5oobetncojcm3c3hxasyd4rvid4jqhy4gkaheg4/?filename=0-PUG.json
         console.log(`tokenURI:${uri}`)
         if(uri){
@@ -45,7 +45,7 @@ export default function NFTBox({price ,tokenId, seller,  nftAddress, marketplace
         }
     }
 
-    useEffect(()=>{
+    useEffect(()=>{        
         if(isWeb3Enabled){
             updateState()
         }
@@ -67,6 +67,7 @@ export default function NFTBox({price ,tokenId, seller,  nftAddress, marketplace
     const getTokenURI = async ()=>{
         const successMsg = "getTokenURI success"
         const title = "getTokenURI resp"
+        console.log(`start getTokenURI`)
         return await runContractFunction({
             params:{
                 contractAddress: nftAddress,

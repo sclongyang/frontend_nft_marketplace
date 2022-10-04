@@ -5,7 +5,6 @@ import networkMapping from "../constants/networkMapping.json"
 import nftMarketplaceAbi from "../constants/NFTMarketplace.json"
 import baseNFTAbi from "../constants/BaseNFT.json"
 import {ethers} from "ethers"
-import styles from "../styles/Home.module.css"
 
 
 export default function Sell(){

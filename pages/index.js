@@ -12,7 +12,6 @@ export default function Home() {
   const chainString = chainId ? parseInt(chainId).toString() : "31337"
   const marketplaceAddress = networkMapping[chainString].NFTMarketplace[0]
 
-
   return (
    <div>
   {isWeb3Enabled ? (

@@ -8,8 +8,9 @@ import {ethers} from "ethers"
 
 export default function Sell(){
     const {account, chainId, isWeb3Enabled} = useMoralis()    
-    const chainIdStr = chainId? parseInt(chainId).toString() : "31337"
-    console.log(`chainIdStr: ${chainIdStr}`)
+    // console.log(`chainid:${parseInt(chainId)}`)
+    const chainIdStr = chainId? parseInt(chainId).toString() : "31337"    
+
     const marketplaceAddress = networkMapping[chainIdStr].NFTMarketplace[0]    
     const {runContractFunction} = useWeb3Contract()
     const dispatch = useNotification()    
@@ -23,6 +24,7 @@ export default function Sell(){
     },[isWeb3Enabled, account, chainId, proceeds])
 
     const updateState = async ()=>{
+        // console.log(`begin updateUI: marketplaceAddress: ${marketplaceAddress}, user:${account}`)
         const respProceeds = await runContractFunction({
             params:{
                 contractAddress: marketplaceAddress,
@@ -42,7 +44,8 @@ export default function Sell(){
     const approveAndListNFT = async(data)=>{
         const nftAddress = data.data[0].inputResult
         const tokenId = data.data[1].inputResult
-        const price = ethers.utils.parseEther(data.data[2].inputResult).toString()        
+        const price = ethers.utils.parseEther(data.data[2].inputResult).toString()      
+        console.log(`begin approve nft`)  
         //approve
         await runContractFunction({
             params:{
@@ -60,6 +63,8 @@ export default function Sell(){
     }
 
     const listNFTOnMarketplace = async (nftAddress, tokenId, price)=>{
+        console.log(`begin list nft`)  
+
         await runContractFunction({
             params:{
                 contractAddress: marketplaceAddress,
@@ -77,6 +82,7 @@ export default function Sell(){
     }
 
     const withdrawProceeds = async()=>{
+        console.log(`begin withdraw`)
         await runContractFunction({
             params:{
                 contractAddress: marketplaceAddress,
@@ -88,9 +94,9 @@ export default function Sell(){
         })
     }
 
-    const handleCallBack = (isSuccess, successMsg, title, errMsg)=>{
-        const msg = isSuccess?successMsg:errMsg
-        console.log(msg)
+    const handleCallBack = (isSuccess, successMsg, title, errMsg)=>{        
+        const msg = isSuccess?successMsg:errMsg.message
+        console.log(`callback:${isSuccess}, ${title}, content:${msg}`)
         dispatch({
             type: isSuccess?"success":"error",
             message: msg,

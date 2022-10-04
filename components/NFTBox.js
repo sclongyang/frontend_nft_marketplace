@@ -5,6 +5,7 @@ import nftMarketplaceAbi from "../constants/NFTMarketplace.json"
 import baseNFTAbi from "../constants/BaseNFT.json"
 import { useState, useEffect } from "react"
 import UpdatePriceModal from "./UpdateItemModal"
+import {ethers} from 'ethers'
 
 export default function NFTBox({price ,tokenId, seller,  nftAddress, marketplaceAddress}){
     const {account, isWeb3Enabled} = useMoralis()
@@ -14,10 +15,9 @@ export default function NFTBox({price ,tokenId, seller,  nftAddress, marketplace
     const [tokenName, setTokenName] = useState("")
     const [tokenDesc, setTokenDesc] = useState("")
     const [imageURL, setImageURL] = useState("")
-    const [showModal, setShowModal] = useState(false)      
-    
+    const [showModal, setShowModal] = useState(false)    
 
-    const isNFTOwner = account === seller? true: false
+    const isNFTOwner = account.toLowerCase() === seller.toLowerCase()? true: false
 
     const updateState = async()=>{
         const uri = await getTokenURI() //  ipfs://bafybeig37ioir76s7mg5oobetncojcm3c3hxasyd4rvid4jqhy4gkaheg4/?filename=0-PUG.json
@@ -113,7 +113,7 @@ export default function NFTBox({price ,tokenId, seller,  nftAddress, marketplace
             position: "topR"
         })
     }
-
+    
     return (
         <div>            
              {   imageURL ?
@@ -142,6 +142,9 @@ export default function NFTBox({price ,tokenId, seller,  nftAddress, marketplace
                                         height="200"
                                         width="200"
                                     />
+                                    <div>
+                                        {ethers.utils.formatEther(price)} ETH
+                                    </div>
                                 </div>
                             </div>
                         </Card>      

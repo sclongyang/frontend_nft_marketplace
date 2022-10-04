@@ -4,14 +4,12 @@ import { Modal, useNotification, Input } from "web3uikit";
 import nftMarketplaceAbi from "../constants/NFTMarketplace.json"
 import {ethers} from "ethers"
 
-export default function UpdatePriceModal({isVisible, nftMarketplaceAddress, nftAddress, tokenId, onClose}){
+export default function UpdatePriceModal({isVisible, marketplaceAddress, nftAddress, tokenId, onClose}){
     const [newPrice, setNewPrice] = useState("0")
     const dispatch = useNotification()
-   
-    console.log(`isvisible:${isVisible}`)
-
+    
     const {runContractFunction:modifyPrice} = useWeb3Contract({
-        contractAddress:nftMarketplaceAddress,
+        contractAddress:marketplaceAddress,
         abi:nftMarketplaceAbi,
         functionName:"modifyPrice",
         params:{
@@ -22,8 +20,8 @@ export default function UpdatePriceModal({isVisible, nftMarketplaceAddress, nftA
     })
 
     const handleCallBack = (isSuccess, successMsg, title, errMsg)=>{
-        const msg = isSuccess?successMsg:errMsg
-        console.log(msg)
+        const msg = isSuccess?successMsg:errMsg.message
+        console.log(`callback:${isSuccess},${title}, ${msg}`)
         dispatch({
             type: isSuccess?"success":"error",
             message: msg,
